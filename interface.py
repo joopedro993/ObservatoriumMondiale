@@ -17,10 +17,12 @@ class Janela:
         self.janela.geometry(f"{1080}x{720}+{pos_x}+{pos_y}")
 
 
-        self.janela.iconbitmap("assets/assets/mapico.ico")
+        self.janela.iconbitmap("assets/mapico.ico")
 
-        fileImage = PhotoImage(file="assets/assets/TerraBig.png")
-        labelImage = Label(self.janela, image=fileImage, bg="#ffffff")
+        self.janela.overrideredirect(True)
+        
+        self.fileImage = PhotoImage(file="assets/TerraBig.png")
+        labelImage = Label(self.janela, image=self.fileImage, bg="#ffffff")
         labelImage.place(x=85, y=300) 
 
         observatorio_label = Label(self.janela, text="Observatorium Mondiale", font=("Calibri", 48, "bold"), bg="#ffffff", fg="#333333")
@@ -38,10 +40,10 @@ class Janela:
         boxEscolha = Frame(self.janela, bg="#ffffff")
         boxEscolha.pack()
         
-        cadastrar_button = ctk.CTkButton(boxEscolha, text="Cadastrar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333")
+        cadastrar_button = ctk.CTkButton(boxEscolha, text="Cadastrar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command = self.tela_cadastro)
         cadastrar_button.pack(side = LEFT, padx=10)
 
-        login_button = ctk.CTkButton(boxEscolha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333")
+        login_button = ctk.CTkButton(boxEscolha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= self.tela_login)
         login_button.pack(side = LEFT, padx=10)
 
         creditsText = ctk.CTkLabel(self.janela, text="@Desenvolvido por: Alexandre, Elias Gabriel, João Pedro e Maria Victória. 3º DS", font=("Calibri", 15), bg_color="#ffffff", text_color="#7E7C7C", wraplength=300, justify = RIGHT, corner_radius=5)
@@ -51,7 +53,111 @@ class Janela:
         sairButton.pack(anchor= E, side= BOTTOM)
 
 
-
-
-
         self.janela.mainloop()
+    
+    def limpar_tela(self):
+        for widget in self.janela.winfo_children():
+            widget.destroy()
+            
+    def tela_login(self):
+        self.limpar_tela()
+        
+        frame_login = tk.Frame(self.janela, bg="#ffffff")
+        frame_login.pack(fill="both", expand=True)
+        
+        labelImage = Label(self.janela, image=self.fileImage, bg="#ffffff")
+        labelImage.place(x=400, y=10) 
+
+        titulo = Label(frame_login, text="ObMondi", font=("Calibri", 32, "bold"), fg="#333333", bg = "white")
+        titulo.pack(anchor = W, padx = 85)
+        
+        loginText = Label(frame_login, text="Login", font=("Calibri", 28, "bold"), fg="#333333", bg = "white")
+        loginText.pack(anchor = W, padx = 130)
+
+        boxCpf = Frame(frame_login, bg= "white")
+        boxCpf.pack(anchor= W, padx= 50)
+                
+        cpfText = Label(boxCpf, text= "CPF:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
+        cpfText.pack()
+        
+        cpfEntry = ctk.CTkEntry(boxCpf, fg_color="#333333", border_color="#333333", placeholder_text="CPF", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
+        cpfEntry.pack()
+        
+        boxSenha = Frame(frame_login, bg= "white")
+        boxSenha.pack(anchor= W, padx=50)
+                
+        senhaText = Label(boxSenha, text= "Senha:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
+        senhaText.pack()
+        
+        senhaEntry = ctk.CTkEntry(boxSenha, fg_color="#333333", border_color="#333333", placeholder_text="Senha", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white", show= "☸")
+        senhaEntry.pack()
+        
+        loginButton = ctk.CTkButton(boxSenha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= self.tela_login)
+        loginButton.pack(pady= 30)       
+        
+        boxAux = Frame(frame_login, bg= "white")
+        boxAux.pack(anchor= W, padx=50)
+        
+        aux = ctk.CTkLabel(boxAux, text="Se não tiver conta, saia e na tela inicial clique em cadastrar.", font=("Calibri", 15), bg_color="#ffffff", text_color="#7E7C7C", wraplength=300, justify = CENTER, corner_radius=5)
+        aux.pack(anchor = E, side=BOTTOM, pady=10)
+        
+        sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
+        sairButton.pack(anchor= W, side= BOTTOM, padx= 80, pady= 30)
+        
+    def tela_cadastro(self):
+        self.limpar_tela()
+        
+        frame_cadastro = tk.Frame(self.janela, bg="#ffffff")
+        frame_cadastro.pack(fill="both", expand=True)
+        
+        labelImage = Label(self.janela, image=self.fileImage, bg="#ffffff")
+        labelImage.place(x=400, y=10) 
+
+        titulo = Label(frame_cadastro, text="ObMondi", font=("Calibri", 32, "bold"), fg="#333333", bg = "white")
+        titulo.pack(anchor = W, padx = 85)
+        
+        loginText = Label(frame_cadastro, text="Cadastro", font=("Calibri", 28, "bold"), fg="#333333", bg = "white")
+        loginText.pack(anchor = W, padx = 105)
+
+        boxCpf = Frame(frame_cadastro, bg= "white")
+        boxCpf.pack(anchor= W, padx= 50)
+                
+        cpfText = Label(boxCpf, text= "CPF:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
+        cpfText.pack()
+        
+        cpfEntry = ctk.CTkEntry(boxCpf, fg_color="#333333", border_color="#333333", placeholder_text="CPF", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
+        cpfEntry.pack()
+        
+        boxUsuario = Frame(frame_cadastro, bg= "white")
+        boxUsuario.pack(anchor= W, padx=50)
+                
+        usuarioText = Label(boxUsuario, text= "Usuário:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
+        usuarioText.pack()
+        
+        usuarioEntry = ctk.CTkEntry(boxUsuario, fg_color="#333333", border_color="#333333", placeholder_text="Usuário", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
+        usuarioEntry.pack()
+        
+        boxEmail = Frame(frame_cadastro, bg= "white")
+        boxEmail.pack(anchor= W, padx=50)
+                
+        emailText = Label(boxEmail, text= "E-Mail:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
+        emailText.pack()
+        
+        emailEntry = ctk.CTkEntry(boxEmail, fg_color="#333333", border_color="#333333", placeholder_text="E-Mail", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
+        emailEntry.pack()
+        
+        boxSenha = Frame(frame_cadastro, bg= "white")
+        boxSenha.pack(anchor= W, padx=50)
+                
+        senhaText = Label(boxSenha, text= "Senha:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
+        senhaText.pack()
+        
+        senhaEntry = ctk.CTkEntry(boxSenha, fg_color="#333333", border_color="#333333", placeholder_text="Senha", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white", show= "☸")
+        senhaEntry.pack()
+        
+        cadButton = ctk.CTkButton(boxSenha, text="Cadastrar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= self.tela_login)
+        cadButton.pack(pady= 30)       
+        
+        sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
+        sairButton.pack(anchor= W, side= BOTTOM, padx= 80, pady= 30)
+        
