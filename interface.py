@@ -47,7 +47,8 @@ class Janela:
         creditsText = ctk.CTkLabel(self.janela, text="@Desenvolvido por: Alexandre, Elias Gabriel, João Pedro e Maria Victória. 3º DS", font=("Calibri", 15), bg_color="#ffffff", text_color="#7E7C7C", wraplength=300, justify = RIGHT, corner_radius=5)
         creditsText.pack(anchor = E, side=BOTTOM, pady=10)
         
-
+        sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
+        sairButton.pack(anchor= E, side= BOTTOM)
 
 
 
