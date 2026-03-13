@@ -2,6 +2,9 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
+from funcional import Funcional
+
+funcional = Funcional()
 
 class Janela:
     def __init__(self):
@@ -77,6 +80,9 @@ class Janela:
         event.widget.insert(0, numeros[:14])
 
     def tela_login(self):
+        def nova_janela():
+            funcional.criar_janela()
+
         self.limpar_tela()
         
         frame_login = tk.Frame(self.janela, bg="#ffffff")
@@ -111,7 +117,7 @@ class Janela:
         senhaEntry = ctk.CTkEntry(boxSenha, fg_color="#333333", border_color="#333333", placeholder_text="Senha", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white", show= "☸")
         senhaEntry.pack()
         
-        loginButton = ctk.CTkButton(boxSenha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= self.tela_login)
+        loginButton = ctk.CTkButton(boxSenha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= nova_janela)
         loginButton.pack(pady= 30)       
         
         boxAux = Frame(frame_login, bg= "white")
