@@ -59,6 +59,23 @@ class Janela:
         for widget in self.janela.winfo_children():
             widget.destroy()
             
+    def formatar_cpf(self, event):
+        texto = event.widget.get()
+
+        numeros = ''.join(filter(str.isdigit, texto))
+
+        if len(numeros) > 3:
+            numeros = numeros[:3] + '.' + numeros[3:]
+
+        if len(numeros) > 7:
+            numeros = numeros[:7] + '.' + numeros[7:]
+
+        if len(numeros) > 11:
+            numeros = numeros[:11] + '-' + numeros[11:]
+
+        event.widget.delete(0, "end")
+        event.widget.insert(0, numeros[:14])
+
     def tela_login(self):
         self.limpar_tela()
         
@@ -82,6 +99,8 @@ class Janela:
         
         cpfEntry = ctk.CTkEntry(boxCpf, fg_color="#333333", border_color="#333333", placeholder_text="CPF", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
         cpfEntry.pack()
+
+        cpfEntry.bind('<KeyRelease>', self.formatar_cpf)
         
         boxSenha = Frame(frame_login, bg= "white")
         boxSenha.pack(anchor= W, padx=50)
@@ -127,6 +146,7 @@ class Janela:
         
         cpfEntry = ctk.CTkEntry(boxCpf, fg_color="#333333", border_color="#333333", placeholder_text="CPF", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
         cpfEntry.pack()
+        cpfEntry.bind('<KeyRelease>', self.formatar_cpf)
         
         boxUsuario = Frame(frame_cadastro, bg= "white")
         boxUsuario.pack(anchor= W, padx=50)
