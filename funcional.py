@@ -64,52 +64,46 @@ class Funcional:
         if self.dados.get("bandeira"):
             arquivo_memoria = io.BytesIO(self.dados["bandeira"])
             imagem = Image.open(arquivo_memoria)
-            imagem = imagem.resize((300, 200), Image.LANCZOS)
+            imagem = imagem.resize((480, 320), Image.LANCZOS)
             self.imagem_tk = ImageTk.PhotoImage(imagem)
 
 
-        frame_login = tk.Frame(self.janela, bg="#ffffff")
-        frame_login.pack(fill="both", expand=True)
+        frame_pesquisa = tk.Frame(self.janela, bg="#ffffff")
+        frame_pesquisa.pack(fill="both", expand=True)
 
-        titulo = Label(frame_login, text=str(self.dados["titulo"]), font=("Calibri", 48, "bold"), fg="#333333", bg = "white")
-        titulo.pack(anchor = W, padx = 85)
+        titulo = Label(frame_pesquisa, text=str(self.dados["titulo"]), font=("Calibri", 56, "bold"), fg="#333333", bg = "white")
+        titulo.pack(anchor = W, padx = 85,pady = 20)
+
+        boxBig = Frame(frame_pesquisa, bg= "white")
+        boxBig.pack(anchor=W, padx = 32,pady=10)
+
+        boxGeo = Frame(boxBig, bg= "white")
+        boxGeo.pack( padx = 10,pady=20, side= LEFT)
+
+        Label(boxGeo, text = "Dados Geográficos", font= ("Calibri", 32, "bold"), fg="#333333", bg = "white").pack(anchor = W,pady=20)
         
-        Label(frame_login, text=str(self.dados["capital"]), font=("Calibri", 28, "bold"), fg="#333333", bg = "white").pack(anchor = W)
-        Label(frame_login, text=str(self.dados["moeda"]), font=("Calibri", 28, "bold"), fg="#333333", bg = "white").pack(anchor= W)
-        Label(frame_login, text=str(self.dados["populacao"]), font=("Calibri", 28, "bold"), fg="#333333", bg = "white").pack(anchor=W)
+        Label(boxGeo, text=str(self.dados["capital"]), font=("Calibri", 24, "bold"), fg="#333333", bg = "white", justify=LEFT).pack(anchor = W)
+        Label(boxGeo, text=str(self.dados["moeda"]), font=("Calibri", 24, "bold"), fg="#333333", bg = "white", justify=LEFT).pack(anchor= W)
+        Label(boxGeo, text=str(self.dados["populacao"]), font=("Calibri", 24, "bold"), fg="#333333", bg = "white", justify=LEFT).pack(anchor=W)
 
         bandeiraImage = Label(self.janela, image=self.imagem_tk, bg="#ffffff")
-        bandeiraImage.pack()
+        bandeiraImage.place(x=1260, y=20)
         
         labelImage = Label(self.janela, image=self.fileImage, bg="#ffffff")
         labelImage.place(x=1280, y=420) 
 
-        boxCpf = Frame(frame_login, bg= "white")
-        boxCpf.pack(anchor= W, padx= 50)
-                
-        cpfText = Label(boxCpf, text= "CPF:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
-        cpfText.pack()
+        boxClima = Frame(boxBig, bg= "white")
+        boxClima.pack(padx = 10,pady=20, side= LEFT)
+
+        Label(boxClima, text="Dados Climáticos", font=("Calibri", 32, "bold"), fg="#333333", bg = "white").pack(anchor=W,pady=20)
+
+        Label(boxClima, text=f"🌡️Temperatura média atual: {str(self.dados["temp"])}°C", font=("Calibri", 24, "bold"), fg="#333333", bg = "white", justify=LEFT).pack(anchor = W)
+        Label(boxClima, text=f"💨      Velocidade Média do Vento: {str(self.dados["vento"])}Km/h", font=("Calibri", 24, "bold"), fg="#333333", bg = "white", justify=LEFT).pack(anchor= W)
+        Label(boxClima, text=f"🌦️Está chovendo na maior parte do país? {str(self.dados["chuva"])}", font=("Calibri", 24, "bold"), fg="#333333", bg = "white", justify=LEFT).pack(anchor=W)
         
-        cpfEntry = ctk.CTkEntry(boxCpf, fg_color="#333333", border_color="#333333", placeholder_text="CPF", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white")
-        cpfEntry.pack()
-        
-        boxSenha = Frame(frame_login, bg= "white")
-        boxSenha.pack(anchor= W, padx=50)
-                
-        senhaText = Label(boxSenha, text= "Senha:", fg= "#7E7C7C", bg= "white", font= ("Calibri",24, "bold"))
-        senhaText.pack()
-        
-        senhaEntry = ctk.CTkEntry(boxSenha, fg_color="#333333", border_color="#333333", placeholder_text="Senha", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white", show= "☸")
-        senhaEntry.pack()
-        
-        loginButton = ctk.CTkButton(boxSenha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333")
-        loginButton.pack(pady= 30)       
-        
-        boxAux = Frame(frame_login, bg= "white")
-        boxAux.pack(anchor= W, padx=50)
-        
-        aux = ctk.CTkLabel(boxAux, text="Se não tiver conta, saia e na tela inicial clique em cadastrar.", font=("Calibri", 15), bg_color="#ffffff", text_color="#7E7C7C", wraplength=300, justify = CENTER, corner_radius=5)
-        aux.pack(anchor = E, side=BOTTOM, pady=10)
-        
+        Label(frame_pesquisa, text="📜Uma Breve História", font=("Calibri", 32, "bold"), fg="#333333", bg = "white").pack(anchor=W, padx = 32,pady=20)
+
+        Label(frame_pesquisa, text=str(self.dados["resumo"]), font=("Calibri", 20, "bold"), fg="#333333", bg = "white", justify=LEFT, wraplength=1120).pack(anchor=W, padx = 32)
+
         sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
         sairButton.pack(anchor= W, side= BOTTOM, padx= 80, pady= 30)

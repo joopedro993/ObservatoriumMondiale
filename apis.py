@@ -77,8 +77,8 @@ class API:
             if response.status_code == 200:
                 dados = response.json()[0]
                 
-                self.capital = (f"Capital: {dados.get('capital', ['N/A'])[0]}")
-                self.populacao = (f"População: {dados.get('population'):,} habitantes")
+                self.capital = (f"🏛️Capital: {dados.get('capital', ['N/A'])[0]}")
+                self.populacao = (f"👥      População: {dados.get('population'):,} habitantes")
                 bandeira_url = dados.get('flags', {}).get('png')
                 
                 self.imagem_bytes = None
@@ -92,7 +92,7 @@ class API:
                     except:
                         self.imagem_bytes = None
 
-                self.moeda = (f"Moeda: {list(dados.get('currencies', {}).values())[0]['name']}")
+                self.moeda = (f"💰      Moeda: {list(dados.get('currencies', {}).values())[0]['name']}")
             else:
                 messagebox.showerror("Erro",f"Erro {response.status_code}: Verifique se o nome '{tema}' está em inglês.")
 
