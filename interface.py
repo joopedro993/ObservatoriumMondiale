@@ -1,10 +1,13 @@
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox
 import customtkinter as ctk
-from interfaceFuncional import Funcional
+from funcional import Funcional
+from repositorio import Repositorio
+from classes import Cadastro
 
 funcional = Funcional()
+repositorio = Repositorio()
 
 class Janela:
     def __init__(self):
@@ -80,8 +83,23 @@ class Janela:
         event.widget.insert(0, numeros[:14])
 
     def tela_login(self):
-        def nova_janela():
-            funcional.criar_janela()
+        def login():
+            
+            cpf = cpfEntry.get()
+            senha = senhaEntry.get()
+
+            if cpf == ""  or senha == "":
+                messagebox.showerror("Erro", "Dados incompletos.")
+            
+            else:
+
+                salvar = repositorio.login_usuario(cpf,senha)
+                if salvar:
+                    messagebox.showinfo("Cadastro", "Login efetuado com Sucesso.")
+                    funcional.criar_janela(cpf)
+
+                else:
+                    messagebox.showerror("Cadastro", "Usuário não existente")
 
         self.limpar_tela()
         
@@ -117,7 +135,7 @@ class Janela:
         senhaEntry = ctk.CTkEntry(boxSenha, fg_color="#333333", border_color="#333333", placeholder_text="Senha", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white", show= "☸")
         senhaEntry.pack()
         
-        loginButton = ctk.CTkButton(boxSenha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= nova_janela)
+        loginButton = ctk.CTkButton(boxSenha, text="Login", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= login)
         loginButton.pack(pady= 30)       
         
         boxAux = Frame(frame_login, bg= "white")
@@ -130,6 +148,29 @@ class Janela:
         sairButton.pack(anchor= W, side= BOTTOM, padx= 80, pady= 30)
         
     def tela_cadastro(self):
+        def cadastrar():
+
+            cpf = cpfEntry.get()
+            usuario = usuarioEntry.get()
+            email = emailEntry.get()
+            senha = senhaEntry.get()
+
+            if cpf == "" or usuario == "" or email == "" or senha == "":
+                messagebox.showerror("Erro", "Dados incompletos.")
+            
+            else:
+                cliente = Cadastro(cpf,usuario,email,senha)
+
+                salvar = repositorio.salvar_usuario(cliente)
+                if salvar:
+                    messagebox.showinfo("Cadastro", "Usuário Cadastrado com Sucesso, faça login.")
+                    self.tela_login()
+
+                else:
+                    messagebox.showerror("Cadastro", "Usuário já existente")
+
+                
+
         self.limpar_tela()
         
         frame_cadastro = tk.Frame(self.janela, bg="#ffffff")
@@ -181,7 +222,7 @@ class Janela:
         senhaEntry = ctk.CTkEntry(boxSenha, fg_color="#333333", border_color="#333333", placeholder_text="Senha", placeholder_text_color="#7E7C7C", justify= CENTER, width= 250, font= ("Calibri", 24), text_color= "white", show= "☸")
         senhaEntry.pack()
         
-        cadButton = ctk.CTkButton(boxSenha, text="Cadastrar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= self.tela_login)
+        cadButton = ctk.CTkButton(boxSenha, text="Cadastrar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= cadastrar)
         cadButton.pack(pady= 30)       
         
         sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)

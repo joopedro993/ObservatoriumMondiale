@@ -5,12 +5,15 @@ import customtkinter as ctk
 import requests
 from apis import API
 from PIL import Image, ImageTk
-import io
+import io 
+from repositorio import Repositorio
 
 apis = API()
+repositorio = Repositorio()
 
 class Funcional:
     def __init__(self):
+        
         pass
 
     def limpar_tela(self):
@@ -20,11 +23,16 @@ class Funcional:
     def get_dados(self, dado):
         self.dados = apis.gerar_dados(dado)
         
-    def criar_janela(self):
+    def criar_janela(self,cpf):
+        self.cpf_cliente = cpf
         def functions(dado):
             self.get_dados(dado)
             self.pesquisa()
-            
+        
+        def delete():
+            repositorio.deletar_histórico(self.cpf_cliente)
+            messagebox.showinfo("Histórico", "Histórico apagado com sucesso.")
+
         self.janela = tk.Toplevel()
         self.janela.resizable(0,0)
         self.janela.config(bg = "#ffffff")
@@ -54,11 +62,19 @@ class Funcional:
         questButton = ctk.CTkButton(self.janela, text="Pesquisar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command = lambda: functions(questEntry.get()))
         questButton.pack(pady= 30)  
 
-        sairButton = ctk.CTkButton(self.janela, text="Sair", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
-        sairButton.pack()
+        boxFuncional = Frame(self.janela, bg= "white")
+        boxFuncional.pack()
+        sairButton = ctk.CTkButton(boxFuncional, text="Sair", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
+        sairButton.pack(side = LEFT, padx = 10)
+
+        deleteButton = ctk.CTkButton(boxFuncional, text="Deletar", width=200, height=50, border_width=0, corner_radius=10, font=("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= delete)
+        deleteButton.pack(side =LEFT, padx = 10)
 
     def pesquisa(self):
+        def historico():
+            repositorio.salvar_historico(self.dados["titulo"], self.cpf_cliente)
 
+        historico()
         self.limpar_tela()
 
         if self.dados.get("bandeira"):
@@ -105,5 +121,5 @@ class Funcional:
 
         Label(frame_pesquisa, text=str(self.dados["resumo"]), font=("Calibri", 20, "bold"), fg="#333333", bg = "white", justify=LEFT, wraplength=1120).pack(anchor=W, padx = 32)
 
-        sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= quit)
+        sairButton = ctk.CTkButton(self.janela, text= "Sair", width= 200, height= 50, border_width= 0, corner_radius= 10, font= ("Calibri", 20), fg_color="#4E4D4D", hover_color="#333333", command= lambda: self.criar_janela(self.cpf_cliente))
         sairButton.pack(anchor= W, side= BOTTOM, padx= 80, pady= 30)
